@@ -2,9 +2,7 @@ local mason_ok, mason = pcall(require, 'mason')
 if not mason_ok then return end
 
 local masonLsp_ok, masonLsp = pcall(require, 'mason-lspconfig')
-if not masonLsp_ok then
-  return
-end
+if not masonLsp_ok then return end
 
 local servers = require('user.lsp').servers
 
