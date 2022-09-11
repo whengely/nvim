@@ -3,6 +3,11 @@ if not ok then return end
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 
+vim.fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
+vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
+vim.fn.sign_define("DiagnosticSignInfo", { text = "", texthl = "DiagnosticSignInfo" })
+vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
+
 local function setup_colors()
     return {
         bright_bg = utils.get_highlight("Folded").bg,
@@ -318,10 +323,10 @@ local Diagnostics = {
     },
 
     static = {
-        --error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-        --warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-        --info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-        --hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+        error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
+        warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
+        info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
+        hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
     },
 
     init = function(self)
@@ -416,18 +421,6 @@ local Git = {
         end,
         provider = ")",
     },
-}
-
-local Snippets = {
-    condition = function()
-        return vim.tbl_contains({ "s", "i" }, vim.fn.mode())
-    end,
-    provider = function()
-        local forward = (vim.fn["UltiSnips#CanJumpForwards"]() == 1) and "" or ""
-        local backward = (vim.fn["UltiSnips#CanJumpBackwards"]() == 1) and " " or ""
-        return backward .. forward
-    end,
-    hl = { fg = "red", bold = true },
 }
 
 local DAPMessages = {
@@ -553,7 +546,7 @@ local Spell = {
     hl = { bold = true, fg = "orange" },
 }
 
-ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode, Snippets })
+ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode })
 
 local Align = { provider = "%=" }
 local Space = { provider = " " }

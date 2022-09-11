@@ -90,4 +90,23 @@ return packer.startup(function(use)
       require('user.configs.dap')
     end
   }
+
+  use {
+    'hrsh7th/nvim-cmp',
+    config = function()
+      require('user.configs.cmp')
+    end,
+    requires = {
+      { "David-Kunz/cmp-npm", config = function() require("cmp-npm").setup() end },
+      { 'hrsh7th/cmp-buffer' },
+      { 'hrsh7th/cmp-path' },
+      { 'hrsh7th/cmp-emoji' },
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'hrsh7th/cmp-git', config = function() require('cmp_git').setup() end },
+      { 'hrsh7th/cmp-nvim-lua' },
+      { 'hrsh7th/cmp-cmdline' },
+      { 'hrsh7th/cmp-omni' },
+    }
+  }
+  use()
 end)
