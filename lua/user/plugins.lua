@@ -113,4 +113,12 @@ return packer.startup(function(use)
     requires = 'nvim-lua/plenary.nvim',
     config = function() require('neogit').setup() end
   }
+
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    config = function()
+      require('user.configs.treesitter')
+    end,
+  }
 end)
