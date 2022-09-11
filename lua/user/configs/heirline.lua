@@ -887,7 +887,7 @@ local TabLine = {
     TabPages,
 }
 
-heirline.setup(StatusLines, WinBar)--, TabLine)
+heirline.setup(StatusLines, WinBar, TabLine)
 
 vim.api.nvim_create_augroup("Heirline", { clear = true })
 
