@@ -1,6 +1,7 @@
 local ok, packer = pcall(require, 'packer')
 if not ok then return end
 
+
 return packer.startup(function(use)
   use "rebelot/kanagawa.nvim"
 
@@ -51,12 +52,42 @@ return packer.startup(function(use)
   }
 
   use {
-  'kyazdani42/nvim-tree.lua',
-  requires = {
-    'kyazdani42/nvim-web-devicons', -- optional, for file icons
-  },
-  config = function()
-    require('user.configs.nvim-tree')
-  end
-}
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icons
+    },
+    config = function()
+      require('user.configs.nvim-tree')
+    end
+  }
+
+  use {
+    "rebelot/heirline.nvim",
+    config = function()
+      require('user.configs.heirline')
+    end
+  }
+  use {
+    "SmiteshP/nvim-navic",
+    requires = "neovim/nvim-lspconfig",
+    config = function()
+      require('user.configs.navic')
+    end
+  }
+
+  use {
+    'folke/trouble.nvim',
+    config = function()
+      require('user.configs.trouble')
+    end
+  }
+
+  use 'jbyuki/one-small-step-for-vimkind'
+
+  use {
+    'mfussenegger/nvim-dap',
+    config = function()
+      require('user.configs.dap')
+    end
+  }
 end)

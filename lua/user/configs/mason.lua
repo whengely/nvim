@@ -17,6 +17,10 @@ mason.setup {
 }
 
 local on_attach = function(client, bufnr)
+  local navic_ok, navic = pcall(require, 'nvim-navic')
+  if navic_ok then
+    navic.attach(client, bufnr)
+  end
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
