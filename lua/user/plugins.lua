@@ -108,5 +108,9 @@ return packer.startup(function(use)
       { 'hrsh7th/cmp-omni' },
     }
   }
-  use()
+
+  use { 'TimUntersberger/neogit',
+    requires = 'nvim-lua/plenary.nvim',
+    config = function() require('neogit').setup() end
+  }
 end)

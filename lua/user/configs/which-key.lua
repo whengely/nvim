@@ -1,15 +1,30 @@
 local ok, wk = pcall(require, 'which-key')
 if not ok then return end
 
-
 local mappings = {
-    b = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
+  b = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
   e = { "<cmd>NvimTreeToggle<cr>", "File Browser" },
   f = { "<cmd>Telescope find_files<cr>", "Find File" },
   F = { "<cmd>Telescope live_grep<cr>", "Find File by Word" },
   ["]"] = { "<cmd>bnext<cr>", "Next Buffer" },
   ["["] = { "<cmd>bprevious<cr>", "Previous Buffer" },
   c = { "<cmd>bdelete<cr>", "Close Buffer" },
+  g = {
+    name = "Git",
+    g = { "<cmd>!git pull<CR>", "Pull" },
+    l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
+    R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
+    o = { "<cmd>Telescope git_status<cr>", "Open changed file" },
+    b = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
+    c = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
+    C = { "<cmd>!git close-branch<cr>", "Close branch" },
+    d = { "<cmd>Gitsigns diffthis HEAD<cr>", "Diff" },
+    t = { "<cmd>Neogit<cr>", "Commit" },
+    p = { "<cmd>!git publish<cr>", "Publish" },
+    P = { "<cmd>!git create-pull-request<cr>", "Pull Request" },
+    u = { "<cmd>!git push<cr>", "Push" },
+    B = { "<cmd>lua require('utils').createBranch()<cr>", "Branch" }
+  },
   p = {
     name = "Packer",
     s = { "<cmd>PackerSync<cr>", "Sync" },
