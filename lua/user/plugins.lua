@@ -8,12 +8,14 @@ return packer.startup(function(use)
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
+    "jose-elias-alvarez/null-ls.nvim",
   }
 
   use {
-    "jose-elias-alvarez/null-ls.nvim",
+    "L3MON4D3/LuaSnip",
+    "rafamadriz/friendly-snippets",
     config = function()
-      require('user.configs.null_ls')
+      require('user.configs.luasnip')
     end
   }
 
@@ -47,4 +49,14 @@ return packer.startup(function(use)
       require('user.configs.which-key')
     end,
   }
+
+  use {
+  'kyazdani42/nvim-tree.lua',
+  requires = {
+    'kyazdani42/nvim-web-devicons', -- optional, for file icons
+  },
+  config = function()
+    require('user.configs.nvim-tree')
+  end
+}
 end)

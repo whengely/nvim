@@ -4,7 +4,7 @@ if not ok then return end
 
 local mappings = {
     b = { "<cmd>Telescope buffers<cr>", "Find Buffer" },
-  e = { "<cmd>Telescope file_browser<cr>", "File Browser" },
+  e = { "<cmd>NvimTreeToggle<cr>", "File Browser" },
   f = { "<cmd>Telescope find_files<cr>", "Find File" },
   F = { "<cmd>Telescope live_grep<cr>", "Find File by Word" },
   ["]"] = { "<cmd>bnext<cr>", "Next Buffer" },

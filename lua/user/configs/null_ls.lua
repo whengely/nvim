@@ -1,3 +1,5 @@
+local _M = {}
+
 local ok, null_ls = pcall(require, 'null-ls')
 if not ok then return end
 
@@ -14,24 +16,29 @@ local code_actions = null_ls.builtins.code_actions
 local completion = null_ls.builtins.completion
 local hover = null_ls.builtins.hover
 
-null_ls.setup {
-  sources = {
-    -- code actions
-    code_actions.eslint_d.with({
-      condition = with_root_file({ ".eslintrc", ".eslintrc.js", ".eslintrc.json" })
-    }),
-    -- formatting
-    formatting.eslint_d.with({
-      condition = with_root_file({ ".eslintrc", ".eslintrc.js", ".eslintrc.json" }),
-    }),
-    -- completion
-    --
-    -- diagnostics
-    diagnostics.eslint_d.with({
-      condition = with_root_file({ ".eslintrc", ".eslintrc.js", ".eslintrc.json" }),
-    }),
+_M.setup = function(on_attach)
+  null_ls.setup {
+    sources = {
+      -- code actions
+      code_actions.eslint_d.with({
+        condition = with_root_file({ ".eslintrc", ".eslintrc.js", ".eslintrc.json" })
+      }),
+      -- formatting
+      formatting.eslint_d.with({
+        condition = with_root_file({ ".eslintrc", ".eslintrc.js", ".eslintrc.json" }),
+      }),
+      -- completion
+      completion.luasnip,
+      -- diagnostics
+      diagnostics.eslint_d.with({
+        condition = with_root_file({ ".eslintrc", ".eslintrc.js", ".eslintrc.json" }),
+      }),
 
-    -- hover
-    hover.dictionary,
+      -- hover
+      hover.dictionary,
+    },
+    on_attach = on_attach,
   }
-}
+end
+
+return _M

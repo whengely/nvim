@@ -35,3 +35,8 @@ for _, server in ipairs(servers) do
     config.setup(on_attach, capabilities)
   end
 end
+
+local ok, null_ls = pcall(require, 'user.configs.null_ls')
+if not ok then return end
+
+null_ls.setup(on_attach)
