@@ -602,30 +602,13 @@ local SpecialStatusline = {
     condition = function()
         return conditions.buffer_matches({
             buftype = { "nofile", "prompt", "help", "quickfix" },
-            filetype = { "^git.*", "fugitive" },
+            filetype = { "^git.*", },
         })
     end,
     FileType,
     { provider = "%q" },
     Space,
     HelpFilename,
-    Align,
-}
-
-local GitStatusline = {
-    condition = function()
-        return conditions.buffer_matches({
-            filetype = { "^git.*", "fugitive" },
-        })
-    end,
-    FileType,
-    Space,
-    {
-        provider = function()
-            return vim.fn.FugitiveStatusline()
-        end,
-    },
-    Space,
     Align,
 }
 
@@ -676,7 +659,6 @@ local StatusLines = {
     -- init = utils.pick_child_on_condition,
     fallthrough = false,
 
-    GitStatusline,
     SpecialStatusline,
     TerminalStatusline,
     InactiveStatusline,
@@ -712,7 +694,7 @@ local WinBar = {
         condition = function()
             return conditions.buffer_matches({
                 buftype = { "nofile", "prompt", "help", "quickfix" },
-                filetype = { "^git.*", "fugitive" },
+                filetype = { "^git.*", },
             })
         end,
         init = function()
@@ -923,7 +905,7 @@ vim.api.nvim_create_autocmd("User", {
     callback = function(args)
         local buf = args.buf
         local buftype = vim.tbl_contains({ "prompt", "nofile", "help", "quickfix" }, vim.bo[buf].buftype)
-        local filetype = vim.tbl_contains({ "gitcommit", "fugitive", "Trouble", "packer" }, vim.bo[buf].filetype)
+        local filetype = vim.tbl_contains({ "gitcommit", "Trouble", "packer" }, vim.bo[buf].filetype)
         if buftype or filetype then
             vim.opt_local.winbar = nil
         end
