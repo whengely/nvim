@@ -1,5 +1,3 @@
-local ok, heirline = pcall(require, 'heirline')
-if not ok then return end
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 
@@ -30,7 +28,7 @@ local function setup_colors()
     }
 end
 
-heirline.load_colors(setup_colors())
+require("heirline").load_colors(setup_colors())
 
 local ViMode = {
     init = function(self)
@@ -423,6 +421,18 @@ local Git = {
     },
 }
 
+local Snippets = {
+    condition = function()
+        return vim.tbl_contains({ "s", "i" }, vim.fn.mode())
+    end,
+    provider = function()
+        local forward = (vim.fn["UltiSnips#CanJumpForwards"]() == 1) and "" or ""
+        local backward = (vim.fn["UltiSnips#CanJumpBackwards"]() == 1) and " " or ""
+        return backward .. forward
+    end,
+    hl = { fg = "red", bold = true },
+}
+
 local DAPMessages = {
     condition = function()
         local session = require("dap").session()
@@ -546,7 +556,7 @@ local Spell = {
     hl = { bold = true, fg = "orange" },
 }
 
-ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode })
+ViMode = utils.surround({ "", "" }, "bright_bg", { ViMode, Snippets })
 
 local Align = { provider = "%=" }
 local Space = { provider = " " }
@@ -595,13 +605,30 @@ local SpecialStatusline = {
     condition = function()
         return conditions.buffer_matches({
             buftype = { "nofile", "prompt", "help", "quickfix" },
-            filetype = { "^git.*", },
+            filetype = { "^git.*", "fugitive" },
         })
     end,
     FileType,
     { provider = "%q" },
     Space,
     HelpFilename,
+    Align,
+}
+
+local GitStatusline = {
+    condition = function()
+        return conditions.buffer_matches({
+            filetype = { "^git.*", "fugitive" },
+        })
+    end,
+    FileType,
+    Space,
+    {
+        provider = function()
+            return vim.fn.FugitiveStatusline()
+        end,
+    },
+    Space,
     Align,
 }
 
@@ -652,6 +679,7 @@ local StatusLines = {
     -- init = utils.pick_child_on_condition,
     fallthrough = false,
 
+    GitStatusline,
     SpecialStatusline,
     TerminalStatusline,
     InactiveStatusline,
@@ -687,7 +715,7 @@ local WinBar = {
         condition = function()
             return conditions.buffer_matches({
                 buftype = { "nofile", "prompt", "help", "quickfix" },
-                filetype = { "^git.*", },
+                filetype = { "^git.*", "fugitive" },
             })
         end,
         init = function()
@@ -887,7 +915,7 @@ local TabLine = {
     TabPages,
 }
 
-heirline.setup(StatusLines, WinBar, TabLine)
+require("heirline").setup(StatusLines, WinBar, TabLine)
 
 vim.api.nvim_create_augroup("Heirline", { clear = true })
 
@@ -898,7 +926,7 @@ vim.api.nvim_create_autocmd("User", {
     callback = function(args)
         local buf = args.buf
         local buftype = vim.tbl_contains({ "prompt", "nofile", "help", "quickfix" }, vim.bo[buf].buftype)
-        local filetype = vim.tbl_contains({ "gitcommit", "Trouble", "packer" }, vim.bo[buf].filetype)
+        local filetype = vim.tbl_contains({ "gitcommit", "fugitive", "Trouble", "packer" }, vim.bo[buf].filetype)
         if buftype or filetype then
             vim.opt_local.winbar = nil
         end
