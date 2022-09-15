@@ -5,5 +5,10 @@ tree.setup {
   sort_by = "case_sensitive",
   view = {
     adaptive_size = true,
-  }
+  },
+  update_focused_file = {
+    enable = true,
+    update_cwd = true,
+    ignore_list = {},
+  },
 }
